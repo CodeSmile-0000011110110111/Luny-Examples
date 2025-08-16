@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ba763e49b40a9e4aab1c00e2a39dd5d, type: 3}
+  m_Name: LunyRuntimeAssetRegistry
+  m_EditorClassIdentifier: 
+  m_RuntimeContext: {fileID: 11400000, guid: 8d2757e06bcbfdf40a65af80056a3299, type: 2}
+  m_ModdingContext: {fileID: 11400000, guid: 768214e4f8aefd941a550c8bfa6bc717, type: 2}
+  m_RuntimeAutoRunLuaAssets:
+    m_LuaAssets: []
+    m_LuaAssetPaths: []
+  m_RuntimeLuaAssets:
+    m_LuaAssets:
+    - {fileID: -6979533126094156877, guid: 4ee457f225a0cf4489749485c0a56efb, type: 3}
+    - {fileID: -6979533126094156877, guid: 97d0f03eecda54b4fb8b12072a3db9fb, type: 3}
+    - {fileID: -6979533126094156877, guid: bca4f6412f568cb4fbc688dee2ce5c90, type: 3}
+    - {fileID: -6979533126094156877, guid: da45a295aaed48b9a32505eede3000ca, type: 3}
+    - {fileID: -6979533126094156877, guid: 13d08f6ed4a81fa428d7eb50b6e168e4, type: 3}
+    - {fileID: -6979533126094156877, guid: b2fb2773f0d0ccb4ba34e1a39bee3394, type: 3}
+    m_LuaAssetPaths:
+    - Packages/de.codesmile.luny/Tests/Core/LuaModuleTestsBase.lua
+    - Packages/de.codesmile.luny/Tests/Luny.UnityEngine.CoreModule.Tests/LuaListTests.lua
+    - Packages/de.codesmile.luny/Tests/Luny.UnityEngine.CoreModule.Tests/LuaNamespacesAndEnumsTests.lua
+    - Packages/de.codesmile.luny/Tests/Luny.UnityEngine.CoreModule.Tests/LuaObjectBindTests.lua
+    - Packages/de.codesmile.luny/Tests/Luny.UnityEngine.CoreModule.Tests/LuaObjectTypeTests.lua
+    - Packages/de.codesmile.luny/Tests/Luny.UnityEngine.CoreModule.Tests/LuaValueTypeTests.lua
+  m_ModdingAutoRunLuaAssets:
+    m_LuaAssets: []
+    m_LuaAssetPaths: []
+  m_ModdingLuaAssets:
+    m_LuaAssets: []
+    m_LuaAssetPaths: []
