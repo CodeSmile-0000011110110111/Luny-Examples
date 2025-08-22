@@ -1,38 +1,12 @@
-local context = ...
-context.Reloads = context.Reloads and context.Reloads + 1 or 1
+local script = ...
 
-print("Reloaded script " .. context.Reloads .. " times")
+script.OnScriptLoad = function()
+    print("(Re-)Load script: " .. script.Name)
+end
 
-
-context.OnPostprocessAllAssets = function(importedPaths)
+script.OnPostprocessAllAssets = function(importedPaths)
     if #importedPaths == 1 and importedPaths[1]:EndsWith(".unity") then
+        print(script.Name .. " will open created scene: " .. importedPaths[1])
         EditorSceneManager.OpenScene(importedPaths[1]);
     end
-end
-
-
-
-
-
-
-
-
-
-context.OnScriptUnload = function()
-    print("OnScriptUnload: " .. context.ScriptName)
-end
-context.OnScriptLoad = function()
-    print("OnScriptLoad: " .. context.ScriptName)
-end
-context.Awake = function()
-    print("Awake: " .. context.ScriptName)
-end
-context.OnEnable = function()
-    print("OnEnable: " .. context.ScriptName)
-end
-context.OnDisable = function()
-    print("OnDisable: " .. context.ScriptName)
-end
-context.OnDestroy = function()
-    print("OnDestroy: " .. context.ScriptName)
 end

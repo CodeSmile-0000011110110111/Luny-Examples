@@ -1,11 +1,10 @@
-local context = ...
+local script = ...
 
-context.OnScriptLoad = function()
-    print("Load " .. context.ScriptName)
+script.OnScriptLoad = function()
+    print("(Re-)Load script: " .. script.Name)
 end
 
-
-context.OnEnable = function()
+script.OnEnable = function()
     local rootObjectName = "Luny Test"
     local companionCubePath = "Assets/Luny/Prefabs/CompanionCube.prefab"
 
