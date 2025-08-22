@@ -15,6 +15,8 @@ MonoBehaviour:
   m_EditorContext: {fileID: 11400000, guid: 0523cdfce0433f446ba5a8b5757551e5, type: 2}
   m_RuntimeContext: {fileID: 11400000, guid: 8d2757e06bcbfdf40a65af80056a3299, type: 2}
   m_ModdingContext: {fileID: 11400000, guid: 768214e4f8aefd941a550c8bfa6bc717, type: 2}
-  m_EditorAutoRunLuaAssets: []
+  m_EditorAutoRunLuaAssets:
+  - {fileID: -6979533126094156877, guid: f7ce6d5b1c2aaa14d9075642e17509ce, type: 3}
+  - {fileID: -6979533126094156877, guid: fb5a3bbc3766dcc408e666b1066974ca, type: 3}
   m_RuntimeAutoRunLuaAssets: []
   m_ModdingAutoRunLuaAssets: []

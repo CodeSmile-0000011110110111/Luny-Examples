@@ -17,6 +17,6 @@ MonoBehaviour:
     - {fileID: -6979533126094156877, guid: f7ce6d5b1c2aaa14d9075642e17509ce, type: 3}
     - {fileID: -6979533126094156877, guid: fb5a3bbc3766dcc408e666b1066974ca, type: 3}
     m_LuaAssetPaths:
-    - Assets/Scripts/Lua/Editor/AutoOpenCreatedScenes.lua
-    - Assets/Scripts/Lua/Editor/CreateObjectsInScene.lua
+    - Assets/Luny/Scripts/Lua/Editor/AutoOpenCreatedScenes.lua
+    - Assets/Luny/Scripts/Lua/Editor/CreateObjectsInScene.lua
   m_EditorContext: {fileID: 11400000, guid: 0523cdfce0433f446ba5a8b5757551e5, type: 2}

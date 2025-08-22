@@ -287,13 +287,12 @@
       "url": "https://packages.unity.com"
     },
     "de.codesmile.luny": {
-      "version": "https://github.com/CodeSmile-0000011110110111/de.codesmile.luny.git#develop",
+      "version": "file:de.codesmile.luny",
       "depth": 0,
-      "source": "git",
+      "source": "embedded",
       "dependencies": {
         "com.unity.test-framework": "1.4.6"
-      },
-      "hash": "ae0d8434f385f24bfee4c71f96aaeb403c4003fb"
+      }
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
