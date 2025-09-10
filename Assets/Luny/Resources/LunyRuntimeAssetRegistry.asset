@@ -17,9 +17,9 @@ MonoBehaviour:
   m_RuntimeModuleLoaders:
   - AssemblyName: UnityEngine.CoreModule
     LoaderVersion: 6000.0.35f1
-    LoaderHash: 2045729588
+    LoaderHash: 496933984
     Loader:
-      rid: 3323316183376330950
+      rid: 5680391764467515392
   m_RuntimeAutoRunLuaAssets:
     m_LuaAssets: []
     m_LuaAssetPaths: []
@@ -31,6 +31,7 @@ MonoBehaviour:
     - {fileID: -6979533126094156877, guid: da45a295aaed48b9a32505eede3000ca, type: 3}
     - {fileID: -6979533126094156877, guid: 13d08f6ed4a81fa428d7eb50b6e168e4, type: 3}
     - {fileID: -6979533126094156877, guid: b2fb2773f0d0ccb4ba34e1a39bee3394, type: 3}
+    - {fileID: -6979533126094156877, guid: ec76cb140fdab57488ad098a53a40784, type: 3}
     m_LuaAssetPaths:
     - Packages/de.codesmile.luny/Tests/Core/LuaModuleTestsBase.lua
     - Packages/de.codesmile.luny/Tests/Luny.UnityEngine.CoreModule.Tests/LuaListTests.lua
@@ -38,6 +39,7 @@ MonoBehaviour:
     - Packages/de.codesmile.luny/Tests/Luny.UnityEngine.CoreModule.Tests/LuaObjectBindTests.lua
     - Packages/de.codesmile.luny/Tests/Luny.UnityEngine.CoreModule.Tests/LuaObjectTypeTests.lua
     - Packages/de.codesmile.luny/Tests/Luny.UnityEngine.CoreModule.Tests/LuaValueTypeTests.lua
+    - Assets/Luny/Scripts/Lua/Runtime/LunyRuntimeTestScript.lua
   m_ModdingAutoRunLuaAssets:
     m_LuaAssets: []
     m_LuaAssetPaths: []
@@ -47,6 +49,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 3323316183376330950
+    - rid: 5680391764467515392
       type: {class: ModuleLoader, ns: Luny.UnityEngine.CoreModule.Internal, asm: Luny.UnityEngine.CoreModule}
       data: 
