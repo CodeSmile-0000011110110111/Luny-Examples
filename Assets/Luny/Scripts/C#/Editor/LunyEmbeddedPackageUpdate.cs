@@ -1,8 +1,10 @@
 using System;
 using System.IO;
+using System.IO.Compression;
 using UnityEditor;
 using UnityEditor.Compilation;
 using UnityEngine;
+using CompressionLevel = System.IO.Compression.CompressionLevel;
 
 namespace CodeSmileEditor.Luny.Install
 {
@@ -25,7 +27,7 @@ namespace CodeSmileEditor.Luny.Install
 
 		private static void UpdateEmbeddedPackage()
 		{
-			if (IsLocalLunyPackageAvailable() == false)
+			if (!IsLocalLunyPackageAvailable())
 				return;
 
 			var embeddedPackagePath = $"./Packages/{PackageName}/";
@@ -33,7 +35,11 @@ namespace CodeSmileEditor.Luny.Install
 
 			// remove existing
 			if (Directory.Exists(embeddedPackagePath))
+			{
+				// zip it up just in case changes were made to the embedded package
+				BackupEmbeddedPackage(embeddedPackagePath);
 				Directory.Delete(embeddedPackagePath, true);
+			}
 
 			Directory.CreateDirectory(embeddedPackagePath);
 
@@ -61,6 +67,16 @@ namespace CodeSmileEditor.Luny.Install
 
 			AssetDatabase.ImportAsset(embeddedPackagePath, ImportAssetOptions.ImportRecursive);
 			CompilationPipeline.RequestScriptCompilation();
+		}
+
+		private static void BackupEmbeddedPackage(String embeddedPackagePath)
+		{
+			var now = DateTime.Now;
+			var zipFile = Path.GetFullPath(
+				$"P:/LunyExamplesEmbeddedPackage_{now.Year}-{now.Month:D2}-{now.Day:D2}__{now.Hour:D2}-{now.Minute:D2}-{now.Second:D2}.zip");
+			var sourcePath = Path.GetFullPath(embeddedPackagePath);
+			Debug.Log($"Zipping {sourcePath} to {zipFile} ..");
+			ZipFile.CreateFromDirectory(sourcePath, zipFile, CompressionLevel.Fastest, false);
 		}
 	}
 }
