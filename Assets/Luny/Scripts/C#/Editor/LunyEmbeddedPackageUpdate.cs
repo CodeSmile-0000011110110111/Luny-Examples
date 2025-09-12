@@ -17,29 +17,59 @@ namespace CodeSmileEditor.Luny.Install
 	{
 		private const String PackageName = "de.codesmile.luny";
 		private const String LocalPackagePath = "P:/" + PackageName;
-		private const String MenuItemName = "Window/CodeSmile/Update embedded Luny package";
+		private const String UpdateMenuItemName = "Window/CodeSmile/Update embedded Luny package";
+		private const String RemoveMenuItemName = "Window/CodeSmile/Remove embedded Luny package";
 
-		[MenuItem(MenuItemName)]
-		private static void MenuItem() => UpdateEmbeddedPackage();
+		private static Boolean IsLocalPackageAvailable => Directory.Exists(LocalPackagePath);
 
-		[MenuItem(MenuItemName, true)]
-		private static Boolean IsLocalLunyPackageAvailable() => Directory.Exists(LocalPackagePath);
+		[MenuItem(UpdateMenuItemName)]
+		private static void UpdateMenuItem() => ForceRecompile(UpdateEmbeddedPackage());
 
-		private static void UpdateEmbeddedPackage()
+		[MenuItem(UpdateMenuItemName, true)]
+		private static Boolean UpdateMenuItemValidate() => IsLocalPackageAvailable;
+
+		[MenuItem(RemoveMenuItemName)]
+		private static void RemoveMenuItem() => ForceRecompile(RemoveEmbeddedPackage());
+
+		[MenuItem(RemoveMenuItemName, true)]
+		private static Boolean RemoveMenuItemValidate() => IsLocalPackageAvailable;
+
+		private static void ForceRecompile(String packagePath)
 		{
-			if (!IsLocalLunyPackageAvailable())
+			if (String.IsNullOrEmpty(packagePath))
 				return;
 
+			AssetDatabase.ImportAsset(packagePath, ImportAssetOptions.ImportRecursive | ImportAssetOptions.ForceUpdate);
+			CompilationPipeline.RequestScriptCompilation(RequestScriptCompilationOptions.CleanBuildCache);
+		}
+
+		private static String RemoveEmbeddedPackage()
+		{
+			if (!IsLocalPackageAvailable)
+				return null;
+
 			var embeddedPackagePath = $"./Packages/{PackageName}/";
-			Debug.Log($"Updating embedded package: {embeddedPackagePath}");
 
 			// remove existing
 			if (Directory.Exists(embeddedPackagePath))
 			{
+				Debug.Log($"Backup & delete embedded package: {embeddedPackagePath}");
+
 				// zip it up just in case changes were made to the embedded package
 				BackupEmbeddedPackage(embeddedPackagePath);
 				Directory.Delete(embeddedPackagePath, true);
 			}
+
+			return embeddedPackagePath;
+		}
+
+		private static String UpdateEmbeddedPackage()
+		{
+			if (IsLocalPackageAvailable == false)
+				return null;
+
+			var embeddedPackagePath = RemoveEmbeddedPackage();
+			Debug.Log($"Updating embedded package: {embeddedPackagePath}");
 
 			Directory.CreateDirectory(embeddedPackagePath);
 
@@ -65,8 +95,7 @@ namespace CodeSmileEditor.Luny.Install
 				FileUtil.CopyFileOrDirectory(dir.FullName, embeddedPackagePath + dir.Name);
 			}
 
-			AssetDatabase.ImportAsset(embeddedPackagePath, ImportAssetOptions.ImportRecursive);
-			CompilationPipeline.RequestScriptCompilation();
+			return embeddedPackagePath;
 		}
 
 		private static void BackupEmbeddedPackage(String embeddedPackagePath)

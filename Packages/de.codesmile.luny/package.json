@@ -1,8 +1,8 @@
 {
   "name": "de.codesmile.luny",
   "displayName": "Luny",
-  "description": "Program Unity in Lua - Editor and Runtime. Hot reloads every time.",
-  "version": "0.5.0",
+  "description": "Program Unity in Lua - Editor and Runtime. Hot reloads every change.",
+  "version": "0.5.2",
   "unity": "6000.0",
   "unityRelease": "35f1",
   "author": {
@@ -10,7 +10,7 @@
     "email": "steffen@steffenitterheim.de",
     "url": "https://github.com/CodeSmile-0000011110110111/de.codesmile.luny"
   },
-  "changelogUrl": "https://docs.google.com/document/d/1jADnS6rsSx28-uWu8C4ubvCQD08zRO8sNLwtv8uASNU/edit?usp=sharing",
+  "changelogUrl": "https://github.com/CodeSmile-0000011110110111/de.codesmile.luny/blob/main/CHANGELOG.md",
   "documentationUrl": "https://lunyscript.com",
   "licensesUrl": "https://github.com/CodeSmile-0000011110110111/de.codesmile.luny/tree/main/LICENSE",
   "dependencies": {
