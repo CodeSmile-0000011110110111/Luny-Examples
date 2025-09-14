@@ -33,6 +33,7 @@ MonoBehaviour:
     - {fileID: -6979533126094156877, guid: 13d08f6ed4a81fa428d7eb50b6e168e4, type: 3}
     - {fileID: -6979533126094156877, guid: b2fb2773f0d0ccb4ba34e1a39bee3394, type: 3}
     - {fileID: -6979533126094156877, guid: d275e791b5da408418b11c92e889d378, type: 3}
+    - {fileID: -6979533126094156877, guid: e3184d1a175e6b24e8b613f6795beeba, type: 3}
     m_LuaAssetPaths:
     - Assets/Luny/Scripts/Lua/Runtime/LunyRuntimeTestScript.lua
     - Packages/de.codesmile.luny/Tests/Core/LuaModuleTestsBase.lua
@@ -42,6 +43,7 @@ MonoBehaviour:
     - Packages/de.codesmile.luny/Tests/Luny.UnityEngine.CoreModule.Tests/LuaObjectTypeTests.lua
     - Packages/de.codesmile.luny/Tests/Luny.UnityEngine.CoreModule.Tests/LuaValueTypeTests.lua
     - Assets/Luny/Scripts/Lua/Runtime/CaptainsTestScript.lua
+    - Assets/Luny/Scripts/Lua/Runtime/TestScript.lua
   m_ModdingAutoRunLuaAssets:
     m_LuaAssets: []
     m_LuaAssetPaths: []

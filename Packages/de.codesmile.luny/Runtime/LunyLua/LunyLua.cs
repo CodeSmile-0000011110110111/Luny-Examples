@@ -7,6 +7,7 @@ using Luny.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
@@ -52,7 +53,7 @@ namespace Luny
 		ValueTask AddAndRunScripts(IEnumerable<LunyLuaScript> scripts);
 		ValueTask RunScript(LunyLuaScript script);
 		void RemoveScript(LunyLuaScript script);
-		void RemoveScript(LunyLuaAsset asset);
+		void RemoveAssetScripts(LunyLuaAsset asset);
 	}
 
 	public sealed class LunyLua : ILunyLua
@@ -92,6 +93,8 @@ namespace Luny
 			LuaModuleFactory.LoadModules(this, luaContext, out m_Namespaces, out m_Enums);
 		}
 
+		public async ValueTask RunScript(LunyLuaScript script) => await script.DoScriptAsync(m_LuaState);
+
 		public async ValueTask AddAndRunScript(LunyLuaScript script)
 		{
 			if (script == null)
@@ -100,10 +103,6 @@ namespace Luny
 			AddScript(script);
 			await RunScript(script);
 		}
-
-		public void AddScript(LunyLuaScript script) => m_Scripts.Add(script);
-
-		public async ValueTask RunScript(LunyLuaScript script) => await script.DoScriptAsync(m_LuaState);
 
 		public async ValueTask AddAndRunScripts(IEnumerable<LunyLuaScript> scripts)
 		{
@@ -117,6 +116,11 @@ namespace Luny
 			}
 		}
 
+		public void AddScript(LunyLuaScript script)
+		{
+			m_Scripts.Add(script);
+		}
+
 		public void RemoveScript(LunyLuaScript script)
 		{
 			if (script == null || m_Scripts == null)
@@ -126,21 +130,21 @@ namespace Luny
 				DisposeScript(script);
 		}
 
-		public void RemoveScript(LunyLuaAsset luaAsset)
+		public void RemoveAssetScripts(LunyLuaAsset luaAsset)
 		{
 			if (luaAsset == null)
 				return;
 
-			for (var i = m_Scripts.Count - 1; i >= 0; i--)
+			if (m_Scripts.TryGetScriptsForPath(luaAsset.FullPath, out var scripts))
 			{
-				var script = m_Scripts[i];
-				if (script is LunyLuaAssetScript assetScript && luaAsset == assetScript.LuaAsset)
+				foreach (var script in scripts)
 				{
-					m_Scripts.RemoveAt(i);
-					DisposeScript(script);
-					break;
+					if (script is LunyLuaAssetScript assetScript && assetScript.LuaAsset == luaAsset)
+						DisposeScript(script);
 				}
 			}
+
+			m_Scripts.RemoveScriptsForAsset(luaAsset);
 		}
 
 		public void Dispose()
@@ -185,9 +189,9 @@ namespace Luny
 			foreach (var changedFile in changedFiles)
 			{
 				var scriptPath = changedFile;
-				var foundScript = m_Scripts.TryGetScriptForPath(scriptPath, out var changedScript);
+				var foundChangedScripts = m_Scripts.TryGetScriptsForPath(scriptPath, out var changedScripts);
 				var isResourcesScript = false;
-				if (foundScript == false)
+				if (foundChangedScripts == false)
 				{
 					// not found? It could be a Resources path
 					var resourcesIndex = changedFile.ToLower().LastIndexOf(ResourcesFilter);
@@ -197,32 +201,33 @@ namespace Luny
 						var relativePath = changedFile.Substring(resourcesIndex + ResourcesFilter.Length);
 						scriptPath = Path.GetFileNameWithoutExtension(relativePath);
 
-						foundScript = m_Scripts.TryGetScriptForPath(scriptPath, out changedScript);
+						foundChangedScripts = m_Scripts.TryGetScriptsForPath(scriptPath, out changedScripts);
 					}
 				}
 
-				if (foundScript)
+				if (foundChangedScripts)
 				{
 					m_FileWatcher.RemoveChangedFile(changedFile);
 
 					// in editor, changes to LuaAsset files also need to trigger Importer in case auto-refresh is disabled
 					if (Application.isEditor)
 					{
-						if (changedScript is LunyLuaAssetScript assetScript)
-						{
-							//Debug.Log($"{DateTime.Now.Second}.{DateTime.Now.Millisecond}: Reimport {assetScript} at path: {assetScript.FullPath}");
-							AssetUtil.IfEditor_ImportAsset(assetScript.LuaAsset);
-						}
-						else if (isResourcesScript)
+						if (isResourcesScript)
 						{
 							// force reload of Resources script
 							var resourcePath = changedFile.Replace($"{Application.dataPath}/", "Assets/");
-							//Debug.Log($"Reimport Resources path: {resourcePath}");
 							AssetUtil.IfEditor_ImportAsset(resourcePath);
+						}
+						else
+						{
+							var firstScript = changedScripts.First();
+							if (firstScript is LunyLuaAssetScript assetScript)
+								AssetUtil.IfEditor_ImportAsset(assetScript.LuaAsset);
 						}
 					}
 
-					changedScript.SendScriptChangedEvent();
+					foreach (var changedScript in changedScripts)
+						changedScript.SendScriptChangedEvent();
 				}
 			}
 		}

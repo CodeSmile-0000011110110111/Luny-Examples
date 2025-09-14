@@ -40,13 +40,14 @@ namespace Luny
 		         "Disabling event categories that you do not use could improve performance.")]
 		[SerializeField] private LuaScriptEvents m_ForwardedEventTypes = (LuaScriptEvents)(-1); // default to "Everything"
 
-		[SerializeField] private SerializedLuaTable m_ScriptContext;
+		[SerializeField] private SerializedLuaTable m_ScriptContext = new();
 
 		private ILunyLua m_Lua;
 		private LuaGameObjectReferences m_LuaGoRefs;
 		private LunyLuaScript m_LuaScript;
 		private Boolean m_IsLuaGoRefsAssigned;
 		private Boolean m_IsHotReloading;
+		private Boolean m_ScriptChangedWhileInactive;
 
 		public LuaScriptEvents ForwardedEventTypes => m_ForwardedEventTypes;
 
@@ -61,6 +62,10 @@ namespace Luny
 		/// </summary>
 		protected virtual void OnValidate()
 		{
+			// Debug.Log("--------- Serialized Script Context dump ---------");
+			// foreach (var pair in m_ScriptContext.Table)
+			// 	Debug.Log($"{pair.Key}: {pair.Value}");
+
 			m_ForwardedEventTypes |= LuaScriptEvents.Lifecycle;
 
 			// LuaAsset and FilePath are mutually exclusive
@@ -95,6 +100,12 @@ namespace Luny
 			// for cases where LunyScript component was initially disabled
 			if (m_Lua == null)
 				AssignReferencesAndLoadScript();
+			else if (m_ScriptChangedWhileInactive && isActiveAndEnabled)
+			{
+				// in cases where a script was modified while the object or component was disabled
+				m_ScriptChangedWhileInactive = false;
+				StartCoroutine(DeferredScriptReload(true));
+			}
 
 			UpdateScriptRunnerEnabledState();
 		}
@@ -172,32 +183,44 @@ namespace Luny
 			m_Lua.AddScript(luaScript);
 			luaScript.OnScriptChanged -= OnScriptChanged;
 			luaScript.OnScriptChanged += OnScriptChanged;
+
 			return luaScript;
 		}
 
 		private void OnScriptChanged(LunyLuaScript luaScript)
 		{
 			Debug.Assert(luaScript == m_LuaScript);
-			Debug.Log($"Script changed: {luaScript}");
-			StartCoroutine(DeferredScriptReload());
+			//Debug.Log($"{name} script changed: {luaScript} (active: {isActiveAndEnabled})");
+
+			if (isActiveAndEnabled)
+				StartCoroutine(DeferredScriptReload());
+			else
+				m_ScriptChangedWhileInactive = true;
 		}
 
-		private IEnumerator DeferredScriptReload()
+		private IEnumerator DeferredScriptReload(Boolean immediateReload = false)
 		{
-			// don't interrupt the currently running frame
-			yield return new WaitForEndOfFrame();
+			if (immediateReload == false)
+			{
+				// don't interrupt the currently running frame
+				yield return new WaitForEndOfFrame();
+			}
 
 			// avoid hot reloading again in parallel just to be perfectly safe
 			if (m_IsHotReloading)
 				yield return new WaitUntil(() => !m_IsHotReloading);
 
 			m_IsHotReloading = true;
-			m_LuaScript.TrySendEvent<MonoBehaviourLifecycleEvent>(m_Lua.State, (Int32)MonoBehaviourLifecycleEvent.OnDisable);
+
+			if (immediateReload == false)
+				m_LuaScript.TrySendEvent<MonoBehaviourLifecycleEvent>(m_Lua.State, (Int32)MonoBehaviourLifecycleEvent.OnDisable);
 
 			var task = DoScriptAsync().Preserve();
 			yield return new WaitUntil(() => task.IsCompleted);
 
-			m_LuaScript.TrySendEvent<MonoBehaviourLifecycleEvent>(m_Lua.State, (Int32)MonoBehaviourLifecycleEvent.OnEnable);
+			if (immediateReload == false)
+				m_LuaScript.TrySendEvent<MonoBehaviourLifecycleEvent>(m_Lua.State, (Int32)MonoBehaviourLifecycleEvent.OnEnable);
+
 			m_IsHotReloading = false;
 		}
 

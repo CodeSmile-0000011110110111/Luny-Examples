@@ -25,9 +25,9 @@ namespace Luny
 
 		public const String ScriptableSingletonEditorType = "ScriptableSingleton";
 		private readonly LunyScriptEventHandlerCollection m_EventHandlers = new();
-		public Action<LunyLuaScript> OnScriptChanged;
+		public event Action<LunyLuaScript> OnScriptChanged;
 
-		private LuaTable m_ScriptContext;
+		private LuaTable m_ScriptContext = new(0,0);
 		private String m_ScriptName;
 
 		public String Name => m_ScriptName;
@@ -124,9 +124,9 @@ namespace Luny
 			return scripts;
 		}
 
-		public LunyLuaScript(LuaTable scriptContext = null) => m_ScriptContext = scriptContext ?? new LuaTable(0, 4);
+		public LunyLuaScript(LuaTable scriptContext = null) => m_ScriptContext = scriptContext ?? m_ScriptContext;
 
-		internal void Dispose() => m_ScriptContext = null;
+		internal void Dispose() => m_ScriptContext.Clear();
 
 		internal void SendScriptChangedEvent() => OnScriptChanged?.Invoke(this);
 
