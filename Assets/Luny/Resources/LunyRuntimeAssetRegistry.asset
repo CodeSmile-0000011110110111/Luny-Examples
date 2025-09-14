@@ -17,9 +17,9 @@ MonoBehaviour:
   m_RuntimeModuleLoaders:
   - AssemblyName: UnityEngine.CoreModule
     LoaderVersion: 6000.0.35f1
-    LoaderHash: -221310326
+    LoaderHash: -366175074
     Loader:
-      rid: 5680391832347869184
+      rid: 5680391854991081472
   m_RuntimeAutoRunLuaAssets:
     m_LuaAssets: []
     m_LuaAssetPaths: []
@@ -51,6 +51,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 5680391832347869184
+    - rid: 5680391854991081472
       type: {class: ModuleLoader, ns: Luny.UnityEngine.CoreModule.Internal, asm: Luny.UnityEngine.CoreModule}
       data: 

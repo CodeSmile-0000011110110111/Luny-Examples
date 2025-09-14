@@ -6,6 +6,10 @@ https://github.com/CodeSmile-0000011110110111/de.codesmile.luny/issues
 See also the DevLog for a full history:
 https://docs.google.com/document/d/1jADnS6rsSx28-uWu8C4ubvCQD08zRO8sNLwtv8uASNU/edit?usp=sharing
 
+### 0.5.4
+
+- fixed: Create Asset "Editor Lua Script" will be grayed out if the location isn't an 'Editor' folder or assembly
+- fixed: NullreferenceException and ArgumentException after first installation of Luny package (were harmless, but annoying)
 
 ### 0.5.3
 
