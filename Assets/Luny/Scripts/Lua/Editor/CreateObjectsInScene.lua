@@ -4,6 +4,7 @@ script.OnScriptLoad = function()
     print("(Re-)Load script: " .. script.Name)
 end
 
+--[[
 script.OnEnable = function()
     local rootObjectName = "Luny Test"
     local companionCubePath = "Assets/Luny/Prefabs/CompanionCube.prefab"
@@ -54,3 +55,4 @@ script.OnEnable = function()
     -- select the root in the scene
     --Selection.SetActiveObjectWithContext(rootObject, rootObject)
 end
+]]
