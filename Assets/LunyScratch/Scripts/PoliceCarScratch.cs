@@ -8,6 +8,30 @@ using static LunyScratch.Actions;
 
 namespace LunyScratch
 {
+
+	/*// Thin Unity wrapper - only handles Unity lifecycle and Inspector
+	public sealed class PoliceCarScratch : MonoBehaviour
+	{
+		[SerializeField] private PoliceCarConfig config = new PoliceCarConfig();
+
+		private PoliceCarActor m_Actor;
+
+		private void Start()
+		{
+			// Gather Unity-specific dependencies
+			var context = new UnityActorContext(this);
+			var rigidbody = new UnityRigidbody(GetComponentInChildren<Rigidbody>());
+			var lights = GetComponentsInChildren<Light>();
+			var engineLights = new IEngineObject[lights.Length];
+			for (var i = 0; i < lights.Length; i++)
+				engineLights[i] = new UnityEngineObject(lights[i]);
+
+			// Create and start engine-agnostic behavior
+			m_Actor = new PoliceCarActor(config, context, rigidbody, engineLights);
+			m_Actor.OnStart();
+		}
+	}*/
+
 	public sealed class PoliceCarScratch : MonoBehaviour
 	{
 		[SerializeField] [Range(0.001f, 1f)] private Single acceleration = 0.012f;
