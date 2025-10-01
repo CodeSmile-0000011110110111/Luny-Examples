@@ -3,8 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
 
 namespace LunyScratch
 {
@@ -12,40 +10,22 @@ namespace LunyScratch
 	{
 		public static IStep Say(String message, Double duration = 0) => new ActionStep(() =>
 		{
-			Debug.Log($"[Say] {message}");
-			// Show UI, etc.
+			Engine.Current.ShowMessage(message, (Single)duration);
 		});
 
 		public static IStep PlaySound(String soundName, Double volume = 1.0f) => new ActionStep(() =>
 		{
-			Debug.Log($"[PlaySound] {soundName}");
-			// Play sound implementation
+			Engine.Current.PlaySound(soundName, (Single)volume);
 		});
 
-		public static IStep Wait(Double seconds) => new WaitStep(seconds);
+		public static IStep Wait(Double seconds) => new WaitStep((Single)seconds);
 
-		public static IStep Disable(UnityEngine.Object obj)
-		{
-			if (obj is Behaviour behaviour)
-				return new ActionStep(() => behaviour.enabled = false);
-			if (obj is GameObject go)
-				return new ActionStep(() => go.SetActive(false));
+		public static IStep Disable(IEngineObject obj) => new ActionStep(() => obj.SetEnabled(false));
 
-			return null;
-		}
-
-		public static IStep Enable(UnityEngine.Object obj)
-		{
-			if (obj is Behaviour behaviour)
-				return new ActionStep(() => behaviour.enabled = true);
-			if (obj is GameObject go)
-				return new ActionStep(() => go.SetActive(true));
-
-			return null;
-		}
-
+		public static IStep Enable(IEngineObject obj) => new ActionStep(() => obj.SetEnabled(true));
 
 		public static IStep RepeatForever(params IStep[] steps) => new RepeatForeverStep(new List<IStep>(steps));
+		
 		public static IStep RepeatForever(Action step)
 		{
 			var steps = new List<IStep>();
@@ -53,11 +33,9 @@ namespace LunyScratch
 			return new RepeatForeverStep(steps);
 		}
 
-		// Repeat steps while condition is true
 		public static IStep RepeatWhileTrue(Func<Boolean> condition, params IStep[] steps) =>
 			new RepeatWhileTrueStep(condition, new List<IStep>(steps));
 
-		// Repeat steps until condition becomes true
 		public static IStep RepeatUntilTrue(Func<Boolean> condition, params IStep[] steps) =>
 			new RepeatUntilTrueStep(condition, new List<IStep>(steps));
 	}

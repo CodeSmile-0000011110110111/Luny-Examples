@@ -36,6 +36,9 @@ namespace LunyScratch
 				throw new Exception("Only one instance of ScratchRuntime is allowed.");
 
 			s_Instance = this;
+
+			// Initialize the engine abstraction
+			Engine.Initialize(new Unity.UnityScratchEngine());
 		}
 
 		private void Update()

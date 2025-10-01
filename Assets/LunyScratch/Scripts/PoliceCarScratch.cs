@@ -1,3 +1,4 @@
+using LunyScratch.Unity;
 using System;
 using UnityEditor;
 using UnityEngine;
@@ -31,12 +32,14 @@ namespace LunyScratch
 				RepeatForever(MoveCar)
 			);
 
+			var light0 = new UnityEngineObject(lights[0]);
+			var light1 = new UnityEngineObject(lights[1]);
 			Sequence.RepeatForever(
-				Enable(lights[0]),
-				Disable(lights[1]),
+				Enable(light0),
+				Disable(light1),
 				Wait(0.12),
-				Disable(lights[0]),
-				Enable(lights[1]),
+				Disable(light0),
+				Enable(light1),
 				Wait(0.1)
 			);
 		}
