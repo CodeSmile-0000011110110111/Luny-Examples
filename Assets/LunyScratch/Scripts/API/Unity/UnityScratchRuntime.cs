@@ -11,35 +11,31 @@ namespace LunyScratch
 	public sealed class UnityScratchRuntime : MonoBehaviour
 	{
 		private static UnityScratchRuntime s_Instance;
-		private static bool s_Initialized;
+		private static Boolean s_Initialized;
 
 		private readonly List<IStep> _steps = new();
 
 		// Self-initializing singleton property
-		public static UnityScratchRuntime Instance
-		{
-			get
-			{
-				if (s_Initialized == false)
-				{
-					// Create a new GameObject with ScratchRuntime component
-					var go = new GameObject(nameof(UnityScratchRuntime));
-					s_Instance = go.AddComponent<UnityScratchRuntime>();
-					s_Initialized = true;
-					DontDestroyOnLoad(go);
+		public static UnityScratchRuntime Instance => s_Initialized ? s_Instance : CreateScratchRuntimeObjectAndComponent();
 
-					// Initialize the engine abstraction
-					GameEngine.Initialize(new UnityScratchActions(s_Instance));
-				}
-				return s_Instance;
-			}
+		public static void Initialize()
+		{
+			if (s_Initialized == false)
+				CreateScratchRuntimeObjectAndComponent();
 		}
 
-		// Register a new step sequence
-		public void RunStep(IStep step)
+		private static UnityScratchRuntime CreateScratchRuntimeObjectAndComponent()
 		{
-			step.OnEnter();
-			Instance._steps.Add(step);
+			// Create a new GameObject with ScratchRuntime component
+			var go = new GameObject(nameof(UnityScratchRuntime));
+			s_Instance = go.AddComponent<UnityScratchRuntime>();
+			s_Initialized = true;
+			DontDestroyOnLoad(go);
+
+			// Initialize the engine abstraction
+			GameEngine.Initialize(new UnityScratchActions(s_Instance));
+
+			return s_Instance;
 		}
 
 		private void Awake()
@@ -66,8 +62,16 @@ namespace LunyScratch
 
 		private void OnDestroy()
 		{
+			_steps.Clear();
 			s_Instance = null;
 			s_Initialized = false;
+		}
+
+		// Register a new step sequence
+		public void RunStep(IStep step)
+		{
+			step.OnEnter();
+			Instance._steps.Add(step);
 		}
 	}
 }

@@ -8,10 +8,7 @@ namespace LunyScratch
 	/// </summary>
 	public abstract class ScratchBehaviour : MonoBehaviour
 	{
-		protected virtual void Awake()
-		{
-			// Trigger ScratchRuntime initialization
-			var _ = UnityScratchRuntime.Instance;
-		}
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+		private static void Initialize() => UnityScratchRuntime.Initialize();
 	}
 }

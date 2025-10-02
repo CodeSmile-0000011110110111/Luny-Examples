@@ -1,51 +1,30 @@
-using LunyScratch.Unity;
 using System;
-using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static LunyScratch.ScratchActions;
+using static LunyScratch.Unity.UnityScratchActionsExt;
 
 //using static LunyScratch.Sequence;
 
 namespace LunyScratch
 {
-
-	/*// Thin Unity wrapper - only handles Unity lifecycle and Inspector
-	public sealed class PoliceCarScratch : MonoBehaviour
-	{
-		[SerializeField] private PoliceCarConfig config = new PoliceCarConfig();
-
-		private PoliceCarActor m_Actor;
-
-		private void Start()
-		{
-			// Gather Unity-specific dependencies
-			var context = new UnityActorContext(this);
-			var rigidbody = new UnityRigidbody(GetComponentInChildren<Rigidbody>());
-			var lights = GetComponentsInChildren<Light>();
-			var engineLights = new IEngineObject[lights.Length];
-			for (var i = 0; i < lights.Length; i++)
-				engineLights[i] = new UnityEngineObject(lights[i]);
-
-			// Create and start engine-agnostic behavior
-			m_Actor = new PoliceCarActor(config, context, rigidbody, engineLights);
-			m_Actor.OnStart();
-		}
-	}*/
-
 	[RequireComponent(typeof(Rigidbody))]
 	[DisallowMultipleComponent]
 	public sealed class PoliceCarScratch : ScratchBehaviour
 	{
-		[SerializeField] [Range(0.001f, 1f)] private Single acceleration = 0.012f;
+		[SerializeField] private Single _accelerateDelay = 1.2f;
+		[SerializeField] [Range(0.001f, 1f)] private Single _acceleration = 0.012f;
+		[SerializeField] private Single _maxSpeed = 2f;
+		[SerializeField] private Single _stopX = 9f;
+		[SerializeField] private Single _stopVelocitySlowdown = 0.95f;
+		[SerializeField] private Single _stopVelocityY = -1f;
 
 		private Single _speed;
 		private Vector3 _heading;
 		private Rigidbody _rigidbody;
 
-		protected override void Awake()
+		private void Awake()
 		{
-			base.Awake();
-
 			_rigidbody = GetComponent<Rigidbody>();
 			_heading = transform.forward;
 		}
@@ -53,34 +32,36 @@ namespace LunyScratch
 		private void Start()
 		{
 			Sequence.Run(
-				Say("3"),
-				Wait(1),
-				Say("2"),
-				Wait(1),
-				Say("1"),
-				Wait(1),
-				Say("GO!"),
-				PlaySound("gogogo"),
+				Wait(_accelerateDelay),
 				RepeatForever(MoveCar)
 			);
 
 			var lights = GetComponentsInChildren<Light>();
-			var light0 = new UnityEngineObject(lights[0]);
-			var light1 = new UnityEngineObject(lights[1]);
 			Sequence.RepeatForever(
-				Enable(light0),
-				Disable(light1),
+				Enable(lights[0]),
+				Disable(lights[1]),
 				Wait(0.12),
-				Disable(light0),
-				Enable(light1),
+				Disable(lights[0]),
+				Enable(lights[1]),
 				Wait(0.1)
 			);
 		}
 
 		private void MoveCar()
 		{
-			_speed += acceleration;
-			_rigidbody.linearVelocity += _heading * _speed;
+			if (transform.position.x < _stopX)
+			{
+				_speed = 0f;
+				var velocity = _rigidbody.linearVelocity;
+				velocity *= _stopVelocitySlowdown;
+				velocity.y = -_stopVelocityY;
+				_rigidbody.linearVelocity = velocity;
+			}
+			else if (_speed < _maxSpeed)
+			{
+				_speed += _acceleration;
+				_rigidbody.linearVelocity += _heading * _speed;
+			}
 		}
 	}
 }
