@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace LunyScratch.Unity
+namespace LunyScratch
 {
 	public sealed class UnityEngineObject : IGameEngineObject
 	{

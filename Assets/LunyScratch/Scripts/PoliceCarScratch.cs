@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 using static LunyScratch.ScratchActions;
-using static LunyScratch.Unity.UnityScratchActionsExt;
+using static LunyScratch.UnityScratchActions;
 
 //using static LunyScratch.Sequence;
 

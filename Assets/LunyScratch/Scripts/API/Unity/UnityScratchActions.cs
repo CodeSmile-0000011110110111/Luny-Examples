@@ -1,10 +1,9 @@
-﻿
-using System;
+﻿using System;
 using UnityEngine;
 
-namespace LunyScratch.Unity
+namespace LunyScratch
 {
-	public sealed class UnityScratchActions : IScratchActions
+	public sealed partial class UnityScratchActions : IScratchActions
 	{
 		private readonly UnityScratchRuntime _runtime;
 
@@ -21,5 +20,6 @@ namespace LunyScratch.Unity
 		public void PlaySound(String soundName, Single volume) => Debug.Log($"[PlaySound] {soundName} @ {volume}");
 
 		public Single GetDeltaTime() => Time.deltaTime;
+
 	}
 }

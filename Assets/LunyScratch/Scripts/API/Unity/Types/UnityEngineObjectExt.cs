@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace LunyScratch.Unity
+namespace LunyScratch
 {
 	public static class UnityEngineObjectExt
 	{

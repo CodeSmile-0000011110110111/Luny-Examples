@@ -3,7 +3,7 @@
 
 using UnityEngine;
 
-namespace LunyScratch.Unity
+namespace LunyScratch
 {
 	public sealed class UnityRigidbody : IRigidbody
 	{
