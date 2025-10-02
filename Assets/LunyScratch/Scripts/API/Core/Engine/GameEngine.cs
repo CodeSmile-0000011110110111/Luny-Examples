@@ -5,10 +5,10 @@ namespace LunyScratch
 {
 	public static class GameEngine
 	{
-		private static IGameEngineActions s_Instance;
+		private static IScratchActions s_Instance;
 
-		public static void Initialize(IGameEngineActions actions) => s_Instance = actions;
+		public static void Initialize(IScratchActions actions) => s_Instance = actions;
 
-		public static IGameEngineActions Current => s_Instance ?? throw new Exception("Scratch Engine not initialized");
+		public static IScratchActions Current => s_Instance ?? throw new Exception("Scratch Engine not initialized");
 	}
 }

@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace LunyScratch.Unity
 {
-	public class UnityEngineActions : IGameEngineActions
+	public sealed class UnityScratchActions : IScratchActions
 	{
-		private readonly ScratchRuntime _runtime;
+		private readonly UnityScratchRuntime _runtime;
 
-		public UnityEngineActions(ScratchRuntime runtime) => _runtime = runtime;
+		public UnityScratchActions(UnityScratchRuntime runtime) => _runtime = runtime;
 
 		public Double GetCurrentTime() => Time.time;
 

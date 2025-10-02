@@ -5,7 +5,7 @@ using System;
 
 namespace LunyScratch
 {
-	public interface IGameEngineActions
+	public interface IScratchActions
 	{
 		void Log(String message);
 		void ShowMessage(String message, Single duration);

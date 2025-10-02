@@ -11,7 +11,7 @@ namespace LunyScratch
 		protected virtual void Awake()
 		{
 			// Trigger ScratchRuntime initialization
-			var _ = ScratchRuntime.Instance;
+			var _ = UnityScratchRuntime.Instance;
 		}
 	}
 }

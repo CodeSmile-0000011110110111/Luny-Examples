@@ -6,16 +6,15 @@ namespace LunyScratch.Unity
 {
 	public sealed class UnityEngineObject : IGameEngineObject
 	{
-		private readonly Object _obj;
+		private readonly Object _engineObject;
 
-		// Implicit conversion for convenience
-		public static implicit operator UnityEngineObject(Object obj) => new(obj);
+		public static implicit operator UnityEngineObject(Object engineObject) => new(engineObject);
 
-		public UnityEngineObject(Object obj) => _obj = obj;
+		public UnityEngineObject(Object engineObject) => _engineObject = engineObject;
 
 		public void SetEnabled(Boolean enabled)
 		{
-			switch (_obj)
+			switch (_engineObject)
 			{
 				case Behaviour behaviour:
 					behaviour.enabled = enabled;

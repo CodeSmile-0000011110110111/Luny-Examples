@@ -32,18 +32,26 @@ namespace LunyScratch
 		}
 	}*/
 
+	[RequireComponent(typeof(Rigidbody))]
+	[DisallowMultipleComponent]
 	public sealed class PoliceCarScratch : ScratchBehaviour
 	{
 		[SerializeField] [Range(0.001f, 1f)] private Single acceleration = 0.012f;
 
-		private Single speed;
-		private Vector3 moveDirection;
+		private Single _speed;
+		private Vector3 _heading;
+		private Rigidbody _rigidbody;
+
+		protected override void Awake()
+		{
+			base.Awake();
+
+			_rigidbody = GetComponent<Rigidbody>();
+			_heading = transform.forward;
+		}
 
 		private void Start()
 		{
-			var lights = GetComponentsInChildren<Light>();
-			moveDirection = transform.forward;
-
 			Sequence.Run(
 				Say("3"),
 				Wait(1),
@@ -56,6 +64,7 @@ namespace LunyScratch
 				RepeatForever(MoveCar)
 			);
 
+			var lights = GetComponentsInChildren<Light>();
 			var light0 = new UnityEngineObject(lights[0]);
 			var light1 = new UnityEngineObject(lights[1]);
 			Sequence.RepeatForever(
@@ -70,9 +79,8 @@ namespace LunyScratch
 
 		private void MoveCar()
 		{
-			speed += acceleration;
-			var rb = GetComponentInChildren<Rigidbody>();
-			rb.linearVelocity += moveDirection * speed;
+			_speed += acceleration;
+			_rigidbody.linearVelocity += _heading * _speed;
 		}
 	}
 }
