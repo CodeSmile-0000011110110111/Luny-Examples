@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
 
 namespace LunyScratch
 {
-	public class Sequence
+	public sealed class Sequence
 	{
 		// Run sequence of steps
 		public static void Run(params IStep[] steps)
 		{
 			var sequence = new SequenceStep(new List<IStep>(steps));
-			ScratchRuntime.Run(sequence);
+			GameEngine.Current.RunStep(sequence);
 		}
 
 		// Repeat steps forever

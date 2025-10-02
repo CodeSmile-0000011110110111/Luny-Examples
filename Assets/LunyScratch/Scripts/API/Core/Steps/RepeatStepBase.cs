@@ -3,8 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
 
 namespace LunyScratch
 {
@@ -80,36 +78,5 @@ namespace LunyScratch
 
 		// Override this to define when the loop should exit
 		protected abstract Boolean ShouldExitLoop();
-	}
-
-	// Repeat forever step
-	public class RepeatForeverStep : RepeatStepBase
-	{
-		public RepeatForeverStep(List<IStep> steps)
-			: base(steps) {}
-
-		protected override Boolean ShouldExitLoop() => false; // Never exits
-	}
-
-	// Repeat while condition is true
-	public class RepeatWhileTrueStep : RepeatStepBase
-	{
-		private readonly Func<Boolean> _condition;
-
-		public RepeatWhileTrueStep(Func<Boolean> condition, List<IStep> steps)
-			: base(steps) => _condition = condition;
-
-		protected override Boolean ShouldExitLoop() => !_condition(); // Exit when condition becomes false
-	}
-
-	// Repeat until condition becomes true
-	public class RepeatUntilTrueStep : RepeatStepBase
-	{
-		private readonly Func<Boolean> _condition;
-
-		public RepeatUntilTrueStep(Func<Boolean> condition, List<IStep> steps)
-			: base(steps) => _condition = condition;
-
-		protected override Boolean ShouldExitLoop() => _condition(); // Exit when condition becomes true
 	}
 }

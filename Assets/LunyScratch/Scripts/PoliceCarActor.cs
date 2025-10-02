@@ -1,7 +1,7 @@
 ﻿// PoliceCarConfig.cs
 using System;
 
-using static LunyScratch.Actions;
+using static LunyScratch.ScratchActions;
 
 namespace LunyScratch
 {
@@ -18,12 +18,12 @@ namespace LunyScratch
 		private readonly PoliceCarConfig _config;
 		private readonly IActorContext _context;
 		private readonly IRigidbody _rigidbody;
-		private readonly IEngineObject[] _lights;
+		private readonly IGameEngineObject[] _lights;
 
 		private Single _speed;
 		private IVector3 _moveDirection;
 
-		public PoliceCarActor(PoliceCarConfig config, IActorContext context, IRigidbody rigidbody, IEngineObject[] lights)
+		public PoliceCarActor(PoliceCarConfig config, IActorContext context, IRigidbody rigidbody, IGameEngineObject[] lights)
 		{
 			_config = config;
 			_context = context;

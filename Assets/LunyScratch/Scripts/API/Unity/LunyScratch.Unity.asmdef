@@ -1,0 +1,16 @@
+{
+    "name": "LunyScratch.Unity",
+    "rootNamespace": "",
+    "references": [
+        "GUID:7a6a879606f442c6a8a70e07e0ecfe8d"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

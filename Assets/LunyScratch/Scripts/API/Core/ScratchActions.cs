@@ -6,23 +6,23 @@ using System.Collections.Generic;
 
 namespace LunyScratch
 {
-	public static class Actions
+	public static class ScratchActions
 	{
 		public static IStep Say(String message, Double duration = 0) => new ActionStep(() =>
 		{
-			Engine.Current.ShowMessage(message, (Single)duration);
+			GameEngine.Current.ShowMessage(message, (Single)duration);
 		});
 
 		public static IStep PlaySound(String soundName, Double volume = 1.0f) => new ActionStep(() =>
 		{
-			Engine.Current.PlaySound(soundName, (Single)volume);
+			GameEngine.Current.PlaySound(soundName, (Single)volume);
 		});
 
 		public static IStep Wait(Double seconds) => new WaitStep((Single)seconds);
 
-		public static IStep Disable(IEngineObject obj) => new ActionStep(() => obj.SetEnabled(false));
+		public static IStep Disable(IGameEngineObject obj) => new ActionStep(() => obj.SetEnabled(false));
 
-		public static IStep Enable(IEngineObject obj) => new ActionStep(() => obj.SetEnabled(true));
+		public static IStep Enable(IGameEngineObject obj) => new ActionStep(() => obj.SetEnabled(true));
 
 		public static IStep RepeatForever(params IStep[] steps) => new RepeatForeverStep(new List<IStep>(steps));
 		

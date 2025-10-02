@@ -2,7 +2,7 @@ using LunyScratch.Unity;
 using System;
 using UnityEditor;
 using UnityEngine;
-using static LunyScratch.Actions;
+using static LunyScratch.ScratchActions;
 
 //using static LunyScratch.Sequence;
 
@@ -32,7 +32,7 @@ namespace LunyScratch
 		}
 	}*/
 
-	public sealed class PoliceCarScratch : MonoBehaviour
+	public sealed class PoliceCarScratch : ScratchBehaviour
 	{
 		[SerializeField] [Range(0.001f, 1f)] private Single acceleration = 0.012f;
 

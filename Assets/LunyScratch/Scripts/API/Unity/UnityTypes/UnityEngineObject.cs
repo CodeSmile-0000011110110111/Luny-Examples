@@ -1,14 +1,10 @@
-// Copyright (C) 2021-2025 Steffen Itterheim
-// Refer to included LICENSE file for terms and conditions.
-
 using System;
-using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace LunyScratch.Unity
 {
-	public class UnityEngineObject : IEngineObject
+	public sealed class UnityEngineObject : IGameEngineObject
 	{
 		private readonly Object _obj;
 
