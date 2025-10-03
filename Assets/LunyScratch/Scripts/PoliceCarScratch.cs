@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
-using static LunyScratch.ScratchActions;
-using static LunyScratch.UnityScratchActions;
+using static LunyScratch.Blocks;
+using static LunyScratch.UnityBlocks;
 
 namespace LunyScratch
 {
@@ -28,13 +28,13 @@ namespace LunyScratch
 
 		private void Start()
 		{
-			Sequence.Run(
+			Scratch.Run(
 				Wait(_accelerateDelay),
 				RepeatForever(MoveCar)
 			);
 
 			var lights = GetComponentsInChildren<Light>();
-			Sequence.RepeatForever(
+			Scratch.RepeatForever(
 				Enable(lights[0]),
 				Disable(lights[1]),
 				Wait(0.12),
