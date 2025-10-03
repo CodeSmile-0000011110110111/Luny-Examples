@@ -3,8 +3,6 @@ using UnityEngine;
 using static LunyScratch.ScratchActions;
 using static LunyScratch.UnityScratchActions;
 
-//using static LunyScratch.Sequence;
-
 namespace LunyScratch
 {
 	[RequireComponent(typeof(Rigidbody))]
